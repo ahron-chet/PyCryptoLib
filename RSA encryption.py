@@ -97,7 +97,7 @@ class RSA(object):
         
   
     def genKey(self,nBit):
-        self.nBit=nBit
+        assert (nBit >= 512)
         e = 65537
         p = self.prime.get_prime(nBit)
         q = self.prime.get_prime(nBit)
@@ -125,25 +125,25 @@ class RSA(object):
     def __decrypt__(self,m,d,n):
         return pow(m,d,n)
     
-    def __getNbit__(n):
+    def __getNbit__(self,n):
         c=3
         while True:
             if (2**c) // n > 0:
-                return 2**c
+                return c
             c+=1
             
     def encrypt(self,public,message):
         n = public['n']
         message = self.__intFromBytes__(message)
         if message >= n:
-            raise 'Data must be < '+str(self.__getNbit__(n)/8)
+            raise Exception ('Data must be smaller than or equal to  '+str(self.__getNbit__(n)//8)+' bytes')
         e = public['e']
         return self.__intToBytes__(self.__encrypt__(message,e,n))
     
     def decrypt(self,private,message):
-        d=key['private']['d']
-        n=key['private']['n']
-        e=key['private']['e']
+        d=private['d']
+        n=private['n']
+        e=private['e']
         m = self.__intFromBytes__(message)
         return self.__intToBytes__(self.__decrypt__(m,d,n))
     
@@ -160,6 +160,4 @@ class RSA(object):
         if self.__intToBytes__(pow(self.__intFromBytes__(signature),e,n))==h:
             return True
         return False
-        
-        
         
