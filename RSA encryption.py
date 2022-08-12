@@ -1,4 +1,5 @@
 import random
+from hashlib import sha256
 
 class Primes(object):
 
@@ -110,7 +111,7 @@ class RSA(object):
         return {"private":private,'public':public}
     
     def __intToBytes__(self,n):
-        p = n.bit_length()//8+1
+        p = (n.bit_length()+7)//8
         b = n.to_bytes(p, 'big')
         return b
     
@@ -145,5 +146,20 @@ class RSA(object):
         e=key['private']['e']
         m = self.__intFromBytes__(message)
         return self.__intToBytes__(self.__decrypt__(m,d,n))
+    
+    def signature(self,private,message):
+        h = sha256(message).digest()
+        hs= self.__intFromBytes__(h)
+        d = private['d']
+        n = private['n']
+        return self.__intToBytes__(pow(hs,d,n))
+    
+    def verify_signature(self,public,signature,message):
+        h = sha256(message).digest()
+        e,n = public['e'],public['n']
+        if self.__intToBytes__(pow(self.__intFromBytes__(signature),e,n))==h:
+            return True
+        return False
+        
         
         
