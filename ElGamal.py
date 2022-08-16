@@ -1,3 +1,4 @@
+
 class ElGamalEncryption(object):
     
     def genKey(self,nbit):
@@ -8,6 +9,7 @@ class ElGamalEncryption(object):
         public = {'p':p,'g':g,'A':A}
         private = {'p':p,'a':a,'g':g}
         return {'public':public,'private':private}
+    
     
     def __encrypt__(self,g, p, A, m):
         k = random.randint(2,p-1)
@@ -45,4 +47,62 @@ class ElGamalEncryption(object):
         c1 = self.__intFromBytes__(msg[:len(msg)//2])
         c2 = self.__intFromBytes__(msg[len(msg)//2:])
         return self.__intToBytes__(self.__decrypt__(a,p,c1,c2))
-        
+    
+    def public(self,fullKey):
+        return fullKey['public']
+    
+    def private(self,fullKey):
+        return fullKey['private']
+    
+    
+if __name__=='__main__':
+    import time
+    from ast import literal_eval
+    el=ElGamalEncryption()
+    while True:
+        a=input('''-------Elgamal Encryption--------
+        1 To generate new key.
+        2 To upload private key.
+        3 To upload public key.
+        4 To encrypt text.
+        5 To decrypt text.\n'''.replace(' '*3,''))
+        if a == '1':
+            nbit=int(input('please enter bit size: '))
+            key = el.genKey(nbit)
+            private = key['private']
+            public = key['public']
+            print('\nThis will be your private key:\n'+str(private))
+            time.sleep(1)
+            print('\nThis will be your public key:\n'+str(public))
+            
+            
+        elif a=='2':
+            private = input('Enter private key: ')
+            private = literal_eval(private)
+            
+        elif a == '3':
+            public = input('Enter public key: ')
+            public = literal_eval(public)
+
+        elif a=='4':
+            try:
+                type(public)==dict
+            except:
+                public = input('Please enter public key')
+                public = literal_eval(public)
+            m = input('please enter text to encrypt: ')
+            enc = el.encrypt(public,m.encode())
+            print(base64.b64encode(enc).decode())
+            
+        elif a=='5':
+            try:
+                type(private)==dict
+            except:
+                private = input('Please enter public key')
+                private = literal_eval(private)
+            m = input('please enter text to decrypt: ')
+            m = base64.b64decode(m.encode())
+            dec = el.decrypt(private,m)
+            print(str(dec)[2:-1])
+        time.sleep(1)
+
