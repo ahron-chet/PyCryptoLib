@@ -1,1 +1,1 @@
-# Full-implementation-of-RSA-in-python
+Full implementation of RSA, Elgamal and Diffie-Hellman in python
