@@ -1,4 +1,5 @@
-
+from PrimeNumbers import Prime
+import random
 class ElGamalEncryption(object):
     
     def genKey(self,nbit):
