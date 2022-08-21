@@ -1,5 +1,8 @@
 from PrimeNumbers import Prime
+from   euclids import Euclids
 import random
+
+
 class ElGamalEncryption(object):
     
     def genKey(self,nbit):
