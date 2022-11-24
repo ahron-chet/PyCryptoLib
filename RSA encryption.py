@@ -1,5 +1,4 @@
-import random
-from hashlib import sha256
+
 
 class Primes(object):
 
