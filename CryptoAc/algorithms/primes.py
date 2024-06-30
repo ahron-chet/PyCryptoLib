@@ -1,3 +1,4 @@
+import random
 
 class Primes(object):
 
@@ -18,7 +19,7 @@ class Primes(object):
                 return True
         return False
 
-    def milerRabin(self,n):
+    def milerRabin(self, n):
         e, m = self.__div2__(n)
         for i in range(20):
             a = random.randrange(2, n)
@@ -67,4 +68,3 @@ class Primes(object):
             if c==0:
                 if self.milerRabin(p):
                     return p     
-
