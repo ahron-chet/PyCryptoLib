@@ -1,4 +1,4 @@
-# Asymmetric-encryption, a full implementation of RSA, Elgamal, and Diffie-Hellman in Python.
+# Asymmetric-encryption, a full implementation of RSA, Elgamal, and Diffie-Hellman in Python. 
 
 This repository contains a complete and self-contained implementation of each of these algorithms, written entirely from scratch using only the Python standard library. No external libraries have been used, making this implementation highly efficient and portable.
 
